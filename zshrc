@@ -1,5 +1,7 @@
 source ~/Programas/headline.zsh-theme
 
+neofetch
+
 # Use powerline
 USE_POWERLINE="true"
 # Source manjaro-zsh-configuration
