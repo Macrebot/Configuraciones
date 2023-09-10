@@ -1,0 +1,321 @@
+# *WINDOW*
+[window]
+
+    dimensions = { columns = 120, lines = 40 } # { columns = <integer>, lines = <integer> }
+    # Window dimensions (changes require restart)
+
+	# Number of lines/columns (not pixels) in the terminal. Both lines and columns
+	# must be non-zero for this to take effect. The number of columns must be at
+	# least _2_, while using a value of _0_ for columns and lines will fall back
+	# to the window manager's recommended size
+
+	# Default: _{ column = 0, lines = 0 }_
+
+
+    padding = { x = 6, y = 6 } # { x = <integer>, y = <integer> }
+    # Blank space added around the window in pixels. This padding is scaled
+    # by DPI and the specified value is always added at both opposing sides.
+
+	# Default: _{ x = 0, y = 0 }_
+
+
+    dynamic_padding = false # <boolean>
+    # Spread additional padding evenly around the terminal content.
+
+	# Default: _false_
+
+
+    decorations = "Full" # "Full" | "None" | "Transparent" | "Buttonless"
+    # Window decorations
+
+	# *Full*
+		# Borders and title bar
+	# *None*
+		# Neither borders nor title bar
+	# *Transparent* _(macOS only)_
+		# Title bar, transparent background and title bar buttons
+	# *Buttonless* _(macOS only)_
+		# Title bar, transparent background and no title bar buttons
+
+	# Default: _"Full"_
+
+
+    opacity = 0.15 # <float>
+    # Background opacity as a floating point number from _0.0_ to _1.0_. The value
+	# \_0.0_ is completely transparent and _1.0_ is opaque.
+
+	# Default: _1.0_
+
+
+    
+    startup_mode = "Windowed" # "Windowed" | "Maximized" | "Fullscreen" | "SimpleFullscreen"
+
+	# Startup mode (changes require restart)
+
+	# Default: _"Windowed"_
+
+
+    ## title # <string>
+
+	# Window title
+
+	# Default: _"Alacritty"_
+
+
+    ## dynamic_title <boolean>
+
+	# Allow terminal applications to change Alacritty's window title.
+
+	# Default: _true_
+
+
+    ## class { instance = <string>, general = <string> } # _(Linux/BSD only)_
+
+	# Window class
+
+	# On Wayland, *general* is used as _app\_id_ and *instance* is ignored.
+
+	# Default: _{ instance = "Alacritty", general = "Alacritty" }_
+
+
+    decorations_theme_variant = "Dark" # "Dark" | "Light" | "None"
+
+	# Override the variant of the System theme/GTK theme/Wayland client side
+	# decorations. Set this to _"None"_ to use the system's default theme variant.
+
+	# Default: _"None"_
+
+
+    ## resize_increments <boolean>
+
+	# Prefer resizing window by discrete steps equal to cell dimensions.
+
+	# Default: _false_
+
+
+    ## option_as_alt # "OnlyLeft" | "OnlyRight" | "Both" | "None" _(macos only)_
+
+	# Make _Option_ key behave as _Alt_
+
+	# Default: _"None"_
+
+# *Scrolling*
+[scrolling]
+
+    history = 5000 # <integer>
+
+	# Maximum number of lines in the scrollback buffer.++
+	# Specifying _0_ will disable scrolling.++
+	# Limited to _100000_.
+
+	# Default: _10000_
+
+    ## multiplier # <integer>
+
+	# Number of line scrolled for every input scroll increment.
+
+	# Default: _3_
+
+# *Font*
+[font]
+
+    normal = { family = "Hurmit Nerd Font", style = "Regular" } # { family = <string>, style = <string> }
+	# Default:
+	    # Linux/BSD: _{ family = "monospace", style = "Regular" }_++
+	    # Windows:   _{ family = "Consolas",  style = "Regular" }_++
+	    # macOS:     _{ family = "Menlo",     style = "Regular" }_
+
+    bold = { family = "Hurmit Nerd Font", style = "Bold" } # { family = <string>, style = <string> }
+
+	# If the family is not specified, it will fall back to the value specified for
+	# the normal font.
+
+	# Default: _{ style = "Bold" }_
+
+    italic = { family = "Hurmit Nerd Font", style = "Italic" } # { family = <string>, style = <string> }
+
+	# If the family is not specified, it will fall back to the value specified for
+	# the normal font.
+
+	# Default: _{ style = "Italic" }_
+
+    bold_italic = { family = "Hurmit Nerd Font", style = "Bold Italic" } # { family = <string>, style = <string> }
+
+	# If the family is not specified, it will fall back to the value specified for
+	# the normal font.
+
+	# Default: _{ style = "Bold Italic" }_
+
+    size = 13.0 # <float>
+
+	# Font size in points.
+
+	# Default: _11.0_
+
+    offset = { x = 0, y = 0 } # { x = <integer>, y = <integer> }
+
+	# Offset is the extra space around each character. _y_ can be thought of as
+	# modifying the line spacing, and _x_ as modifying the letter spacing.
+
+	# Default: _{ x = 0, y = 0 }_
+
+    ## glyph_offset # { x = <integer>, y = <integer> }
+
+	# Glyph offset determines the locations of the glyphs within their cells with
+	# the default being at the bottom. Increasing _x_ moves the glyph to the
+	# right, increasing _y_ moves the glyph upward.
+
+    ## builtin_box_drawing # <boolean>
+
+	# When _true_, Alacritty will use a custom built-in font for box drawing
+	# characters (Unicode points _U+2500_ - _U+259f_).
+
+	# Default: _true_
+	
+
+# Colors
+[colors]
+# Colors are specified using their hexadecimal values with a _#_ prefix: _#RRGGBB_
+
+    primary = {foreground = "#C5C8C6", background = "#1C1F21"}
+
+	# *dim_foreground* <string>
+
+		# If this is not set, the color is automatically calculated based on the
+		# foreground color.
+
+		# Default: _"#828482"_
+
+	# *bright_foreground* <string>
+
+		# This color is only used when _draw\_bold\_text\_with\_bright\_colors_ is
+		# _true_.
+
+		# If this is not set, the normal foreground will be used.
+
+		# Default: _"None"_
+
+    cursor = { text = "#1D1F21", cursor = "#FFFFFF" } # { text = <string>, cursor = <string> }
+
+	# Colors which should be used to draw the terminal cursor.
+
+	# Allowed values are hexadecimal colors like _#ff00ff_, or
+	# _CellForeground_/_CellBackground_, which references the affected cell.
+
+	# Default: _{ text = "CellBackground", cursor: "CellForeground" }_
+
+    # *vi_mode_cursor* # { text = <string>, cursor = <string> }
+
+	# Colors for the cursor when the vi mode is active.
+
+	# Allowed values are hexadecimal colors like _#ff00ff_, or
+	# _CellForeground_/_CellBackground_, which references the affected cell.
+
+	# Default: _{ text = "CellBackground", cursor: "CellForeground" }_
+
+    ## *search*
+
+	# Colors used for the search bar and match highlighting.
+
+	# Allowed values are hexadecimal colors like _#ff00ff_, or
+	# _CellForeground_/_CellBackground_, which references the affected cell.
+
+	# *matches* { foreground = <string>, background = <string> }
+
+		# Default: _{ foreground = "#181818", background: "#ac4242" }_
+
+	# *focused_match* { foreground = <string>, background = <string> }
+
+		# Default: _{ foreground = "#181818", background: "#f4bf75" }_
+
+# *hints*
+
+	# *start* { foreground = <string>, background = <string> }
+
+		# First character in the hint label
+
+		# Allowed values are hexadecimal colors like _#ff00ff_, or
+		# _CellForeground_/_CellBackground_, which references the affected cell.
+
+		# Default: _{ foreground = "#181818", background = "#f4bf75" }_
+
+	# *end* { foreground = <string>, background = <string> }
+
+		# All characters after the first one in the hint label
+
+		# Allowed values are hexadecimal colors like _#ff00ff_, or
+		# _CellForeground_/_CellBackground_, which references the affected cell.
+
+		# Default: _{ foreground = "#181818", background = "#ac4242" }_
+
+# *line_indicator* { foreground = <string>, background = <string> }
+
+	# Color used for the indicator displaying the position in history during
+	# search and vi mode.
+
+	# Setting this to _"None"_ will use the opposing primary color.
+
+	# Default: _{ foreground = "None", background = "None" }_
+
+# *footer_bar* { foreground = <string>, background = <string> }
+
+	# Color used for the footer bar on the bottom, used by search regex input,
+	# hyperlink URI preview, etc.
+
+	# Default: _{ foreground = "#181818", background = "#d8d8d8" }_
+
+# *selection* { text = <string>, background = <string> }
+
+	# Colors used for drawing selections.
+
+	# Allowed values are hexadecimal colors like _#ff00ff_, or
+	# _CellForeground_/_CellBackground_, which references the affected cell.
+
+	# Default: _{ text = "CellBackground", background = "CellForeground" }_
+
+normal = { black = "#1D1F21", red = "#CC6666", green = "#B5BD68", yellow = "#E6c547", blue = "#81A2BE", magenta = "#B294BB", cyan = "#70C0BA", white = "#373B41" }
+
+bright = { black = "#666666", red = "#FF3334", green = "#9EC400", yellow = "#F0C674", blue = "#81a2BE", magenta = "#B77EE0", cyan = "#54CED6", white = "#282A2E" }
+
+# *dim*
+
+	# If the dim colors are not set, they will be calculated automatically based
+	# on the _normal_ colors.
+
+	# *black* <string>
+		# Default: _"#0f0f0f"_
+	# *red* <string>
+		# Default: _"#712b2b"_
+	# *green* <string>
+		# Default: _"#5f6f3a"_
+	# *yellow* <string>
+		# Default: _"#a17e4d"_
+	# *blue* <string>
+		# Default: _"#456877"_
+	# *magenta* <string>
+		# Default: _"#704d68"_
+	# *cyan* <string>
+		# Default: _"#4d7770"_
+	# *white* <string>
+		# Default: _"#8e8e8e"_
+
+# *indexed_colors* [{ index = <integer>, color = <string> },]
+
+	# The indexed colors include all colors from 16 to 256.
+	# When these are not set, they're filled with sensible defaults.
+
+	# Default: _[]_
+
+# *transparent_background_colors* <boolean>
+
+	# Whether or not _window.opacity_ applies to all cell backgrounds, or only to
+	# the default background. When set to _true_ all cells will be transparent
+	# regardless of their background color.
+
+	# Default: _false_
+
+# *draw_bold_text_with_bright_colors* <boolean>
+
+	# When _true_, bold text is drawn using the bright color variants.
+
+	# Default: _false_
