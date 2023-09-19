@@ -26,10 +26,14 @@
 
 import os
 
-from libqtile import bar, layout, widget, extension
+from libqtile import bar, layout, widget, extension, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+
+from os import path
+import subprocess
+
 
 mod = "mod4"
 terminal = "alacritty"
@@ -43,14 +47,16 @@ keys = [
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod, "shift"], "j", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod], "k", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
@@ -58,31 +64,16 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
+
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.run_extension(
-            extension.DmenuRun(
-                background = "#222222",
-                selected_background = color1,
-                foreground = "#fff",
-            )
-        ),
-        desc="Spawn a command using a prompt widget"),
-
+    
     # Volume
     Key([], "XF86AudioLowerVolume", lazy.spawn(
         "pactl set-sink-volume @DEFAULT_SINK@ -5%"
@@ -103,17 +94,22 @@ keys = [
     Key([mod], "b", lazy.spawn("brave"), desc="Brave Launcher"),
     Key([mod], "c", lazy.spawn("code"), desc="VSCode Launcher"),
 
+    # Menu
+    Key([mod], "m", lazy.spawn("rofi -show run")),
+    Key([mod, "shift"], "m", lazy.spawn("rofi -show")),
+
 ]
 
 # groups = [Group(i) for i in "123456789"]
 __groups = {
-    1: Group("", matches=[Match(wm_class=["alacritty"])]),
-    2: Group("歷", matches=[Match(wm_class=["brave"])]),
-    3: Group("", matches=[Match(wm_class=["code"])]),
-    4: Group("", matches=[Match(wm_class=["eclipse"])]),
-    5: Group("", matches=[Match(wm_class=["FileManager"])]),
-    6: Group(""),
-    7: Group(""),
+    1: Group("", matches=[Match(wm_class=["alacritty"])]),
+    2: Group("󰒍", matches=[Match(wm_class=["brave"])]),
+    3: Group("󰈮"),
+    4: Group(""),
+    7: Group("", matches=[Match(wm_class=["FileManager"])]),
+    8: Group(""),
+    9: Group("󰂺"),
+    0: Group(""),
 }
 
 groups = [__groups[i] for i in __groups]
@@ -146,7 +142,10 @@ for i in groups:
     )
 
 layouts = [
-    #layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
+    layout.Columns(
+        border_focus = color1,
+        border_focus_stack=["#222222", "#222222"],
+        border_width=4),
     layout.Max(),
     layout.MonadTall(
         border_width = 3,
@@ -155,33 +154,34 @@ layouts = [
         border_normal = "#222222",
         change_size = 10,
     ),
+    layout.Floating(),
     # Try more layouts by unleashing below layouts.
     #layout.Stack(num_stacks=2),
     #layout.Bsp(),
-    layout.Matrix(
-        border_width = 3,
-        border_focus = color1,
-        margin = 6,
-        border_normal = "#222222",
-        change_size = 10,
-    ),
-    layout.MonadWide(
-        border_width = 3,
-        border_focus = color1,
-        margin = 6,
-        border_normal = "#222222",
-        change_size = 10,
-    ),
+    # layout.Matrix(
+    #     border_width = 3,
+    #     border_focus = color1,
+    #     margin = 6,
+    #     border_normal = "#222222",
+    #     change_size = 10,
+    # ),
+    # layout.MonadWide(
+    #     border_width = 3,
+    #     border_focus = color1,
+    #     margin = 6,
+    #     border_normal = "#222222",
+    #     change_size = 10,
+    # ),
     #layout.RatioTile(),
     #layout.Tile(),
-    layout.TreeTab(
-        active_bg = color1,
-        font = "Hurmit Nerd Font",
-        inactive_bg = "#511e47",
-        sections = [''],
-    ),
+    # layout.TreeTab(
+    #     active_bg = color1,
+    #     font = "Hurmit Nerd Font",
+    #     inactive_bg = "#511e47",
+    #     sections = [''],
+    # ),
     #layout.VerticalTile(),
-    layout.Zoomy(),
+    # layout.Zoomy(),
 ]
 
 widget_defaults = dict(
@@ -198,19 +198,22 @@ screens = [
                 widget.CurrentLayout(
                     background = color1,
                     foreground = "#000",
+                    width = 120,
                 ),
-                widget.TextBox(
-                    fmt='',
-                    font="Hurmit Nerd Font",
-                    foreground= color1,
-                    fontsize = 45,
-                    padding = -6,
-                ),
+                # widget.TextBox(
+                #     fmt='', 
+                #     font="Hurmit Nerd Font",
+                #     foreground= color1,
+                #     fontsize = 60,
+                # ),
                 widget.GroupBox(
                     highlight_method = 'line',
                     highlight_color = ['#000', color1],
                     active = color1,
                     fontsize = 30,
+                    padding_x = 10,
+                    padding_y = 10,
+                    margin_y = 5,
                     disable_drag = True,
                 ),
                 widget.WindowName(
@@ -228,8 +231,9 @@ screens = [
                     fmt='',
                     font="Hurmit Nerd Font",
                     foreground= color1,
-                    fontsize = 45,
-                    padding = -6,
+                    fontsize = 60,
+                    padding = 0,
+
                 ),
                 widget.Battery(
                     background = color1,
@@ -242,25 +246,25 @@ screens = [
                     font="Hurmit Nerd Font",
                     foreground= "#000",
                     background = color1,
-                    fontsize = 45,
-                    padding = -6,
+                    fontsize = 60,
+                    padding = 0,
                 ),
                 widget.Clock(format="%d-%m-%Y %a %H:%M %p"),
                 widget.TextBox(
                     fmt='',
                     font="Hurmit Nerd Font",
                     foreground= color1,
-                    fontsize = 45,
-                    padding = -6,
+                    fontsize = 60,
+                    padding = 0,
                 ),
                 widget.QuickExit(
                     background = color1,
                 ),
             ],
+
             30,
-            opacity = 1,
             border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+            border_color=[color1, "000000", color1, "000000"],
         ),
     ),
 ]
