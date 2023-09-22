@@ -5,7 +5,6 @@
 # Copyright (c) 2012 Craig Barnes
 # Copyright (c) 2013 horsik
 # Copyright (c) 2013 Tao Sauvage
-#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -105,7 +104,9 @@ __groups = {
     1: Group("", matches=[Match(wm_class=["alacritty"])]),
     2: Group("󰒍", matches=[Match(wm_class=["brave"])]),
     3: Group("󰈮"),
-    4: Group(""),
+    4: Group("󰚯"),
+    5: Group("󰂫"),
+    6: Group("󰋊"),
     7: Group("", matches=[Match(wm_class=["FileManager"])]),
     8: Group(""),
     9: Group("󰂺"),
@@ -146,7 +147,6 @@ layouts = [
         border_focus = color1,
         border_focus_stack=["#222222", "#222222"],
         border_width=4),
-    layout.Max(),
     layout.MonadTall(
         border_width = 3,
         border_focus = color1,
@@ -154,6 +154,7 @@ layouts = [
         border_normal = "#222222",
         change_size = 10,
     ),
+    layout.Max(),
     layout.Floating(),
     # Try more layouts by unleashing below layouts.
     #layout.Stack(num_stacks=2),
